@@ -4,7 +4,32 @@ This page introduces how to download our dataset and how to use it.
 
 ## Download
 
+#### Sensor Data
+
 To be released.
+
+#### Annotations
+
+Please download map annotation files at [ToDo](xxx) and unzip it. Store your data with following structure.
+
+```
+└── data
+    ├── argoverse2
+    |   ├── [segment_id]
+    |   |   ├── image
+    |   |   |   ├── [camera]
+    |   |   |   |   ├── [timestamp].jpg
+    |   |   |   |   └── ...
+    |   |   |   └── ...
+    |   |   
+    |   └── ...
+    ├── train_annotations.json
+    ├── val_annotations.json
+    └── test_annotations.json
+├── src
+├── tools
+...
+```
 
 
 
