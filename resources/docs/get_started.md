@@ -1,6 +1,6 @@
 # Get Started 
 
-This page will lead you to go through with our data and code.
+This page will lead you to go through our data and code.
 
 
 
