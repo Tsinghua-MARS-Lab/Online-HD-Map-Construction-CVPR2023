@@ -49,7 +49,7 @@ Please refer to [get_started.md](./resources/docs/get_started.md).
 
 ## Challenge submission and Leaderboard (To be released)
 
-Please submit at [EvalAI](eval.ai)
+Please submit at [EvalAI](https://eval.ai/web/challenges/challenge-page/1954/submission). For details of submission file format, please see [metric.md](./resources/docs/metrics.md).
 
 | Method | mAP | Ped Cross | Divider | Boundary |
 | :----: | :-: | :-------: | :-----: | :------: |
