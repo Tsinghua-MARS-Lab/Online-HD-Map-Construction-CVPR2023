@@ -14,7 +14,7 @@
 - [News](#news)
 - [Data](#data)
 - [Get Started](#get-started)
-- [Challenge submission and Leaderboard (To be released)](#challenge-submission-and-leaderboard-to-be-released)
+- [Challenge submission and Leaderboard](#challenge-submission-and-leaderboard)
 - [Citation](#citation)
 - [License](#license)
 
@@ -47,7 +47,7 @@ Our dataset is built on top of the [Argoverse2](https://www.argoverse.org/av2.ht
 
 Please refer to [get_started.md](./resources/docs/get_started.md).
 
-## Challenge submission and Leaderboard (To be released)
+## Challenge submission and Leaderboard
 
 Please submit at [EvalAI](https://eval.ai/web/challenges/challenge-page/1954/submission). For details of submission file format, please see [metric.md](./resources/docs/metrics.md).
 
