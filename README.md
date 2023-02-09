@@ -23,7 +23,7 @@ Constructing HD maps is a central component of autonomous driving. However, trad
 
 ## Task
 
-The goal of **Online HD Map Construction Task** is to construct the local HD map from onboard sensor observations (surrounding cameras images). A local HD map can be described by a set of map elements with different categories, e.g. road divider, road boundary and pedestrian crossing. Each map element can be vectorized to a polyline, which is consists of a set of discrete points. Here is an example from topdown view.
+The goal of **Online HD Map Construction Task** is to construct the local HD map from onboard sensor observations (surrounding cameras images). A local HD map can be described by a set of map elements with different categories, e.g. road divider, road boundary and pedestrian crossing. Each map element can be vectorized to a polyline, which is consists of a set of points. Here is an example from topdown view.
 
 <div id="top" align="center">
 
