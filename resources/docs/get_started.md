@@ -53,7 +53,7 @@ pip install -r requirements.txt
 
 #### 2. Data
 
-See 
+Please see [download.md](./download.md).
 
 
 
@@ -72,38 +72,75 @@ We provide a baseline model based on [VectorMapNet](https://arxiv.org/abs/2206.0
 Single GPU training
 
 ```
-python tools/train.py plugin/configs/vectormapnet.py
+python tools/train.py src/configs/vectormapnet.py
 ```
 
 Multi GPU training
 
 ```
-bash tools/dist_train.sh plugin/configs/vectormapnet.py ${NUM_GPUS}
+bash tools/dist_train.sh src/configs/vectormapnet.py ${NUM_GPUS}
 ```
 
 
 
 ## Evaluation
 
-For details of evaluation metrics, please see [metrics.md]().
+For details of evaluation metrics, please see [metrics.md](./metrics.md).
 
 **Evaluating a Checkpoint**
 
 Single GPU evaluation
 
 ```
-python tools/test.py plugin/configs/vectormapnet.py ${CHECKPOINT} --eval
+python tools/test.py src/configs/vectormapnet.py ${CHECKPOINT} --split val --eval
+```
+
+Generate a submission file on test set without evaluation:
+
+```
+python tools/test.py src/plugin/configs/vectormapnet.py ${CHECKPOINT} --split test --format-only
 ```
 
 Multi GPU evaluation
 
 ```
-bash tools/dist_test.py plugin/configs/vectormapnet.py ${CHECKPOINT} ${NUM_GPUS} --eval
+bash tools/dist_test.py src/plugin/configs/vectormapnet.py ${CHECKPOINT} ${NUM_GPUS} --split val --eval
+```
+
+Tips for options:
+
+1. Use `--split` option to specify the dataset split to test.
+2. Use `--eval` option to generate a submission file and run evaluation code. Only available when you are testing on validation set (with `--split val` set).
+3. Use `--format-only` option to generate a submission file without evaluation. By setting `--split test --format-only` you will get a submission file which can be directly submitted to our test server.
+
+
+
+**Evaluating a submission file on validation set**
+
+If you want evaluate a submission file (only available on validation set since you do not have annotations on test set), run
+
+```
+python tools/evaluate_submission.py ${SUBMISSION_FILE} ${VAL_ANNOTATION_FILE}
 ```
 
 
 
+## Visualization
+
+Visualization tools can be used to visualize ground-truth labels and model's prediction results. Map polylines will be projected (with z-axis set to 0 if missing) and rendered on surrounding camera images. A 2D BEV map view will also be rendered.
 
 
 
+To visualize ground-truth labels of a log specified by `${LOG_ID} `
 
+```
+python tools/visualize.py ${LOG_ID} 
+```
+
+To visualize also prediction results and filter out all predictions with score lower than `${THR}`
+
+```
+python tools/visualize.py ${LOG_ID} --result ${SUBMISSION_FILE} --thr ${THR}
+```
+
+You can specify where to save these rendered images by setting `--out-dir`, default to `demo/`.
