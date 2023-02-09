@@ -134,13 +134,13 @@ Visualization tools can be used to visualize ground-truth labels and model's pre
 To visualize ground-truth labels of a log specified by `${LOG_ID} `
 
 ```
-python tools/visualize.py ${LOG_ID} 
+python tools/visualization/visualize.py ${LOG_ID} 
 ```
 
 To visualize also prediction results and filter out all predictions with score lower than `${THR}`
 
 ```
-python tools/visualize.py ${LOG_ID} --result ${SUBMISSION_FILE} --thr ${THR}
+python tools/visualization/visualize.py ${LOG_ID} --result ${SUBMISSION_FILE} --thr ${THR}
 ```
 
 You can specify where to save these rendered images by setting `--out-dir`, default to `demo/`.
