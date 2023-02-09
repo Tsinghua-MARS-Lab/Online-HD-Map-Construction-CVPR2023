@@ -41,7 +41,7 @@ We use Chamfer Distance based Average Precision ( $\mathrm{AP}_\mathrm{CD}$ ) as
 
 ## Data
 
-Our dataset is built on top of the [Argoverse2](https://www.argoverse.org/av2.html) dataset. To download the dataset and check more details, please see [download.md](./resources/docs/download.md).
+Our dataset is built on top of the [Argoverse2](https://www.argoverse.org/av2.html) dataset. To download the dataset and check more details, please see [data.md](./resources/docs/data.md).
 
 ## Get Started
 

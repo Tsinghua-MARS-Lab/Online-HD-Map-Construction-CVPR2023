@@ -53,7 +53,7 @@ pip install -r requirements.txt
 
 #### 2. Data
 
-Please see [download.md](./download.md).
+Please see [data.md](./data.md).
 
 
 
