@@ -180,7 +180,6 @@ class Renderer(object):
             color = COLOR_MAPS_PLT[cat]
             for vector in vector_list:
                 pts = np.array(vector)[:, :2]
-                pts = np.array(LineString(pts).simplify(0.2).coords)
                 x = np.array([pt[0] for pt in pts])
                 y = np.array([pt[1] for pt in pts])
                 # plt.quiver(x[:-1], y[:-1], x[1:] - x[:-1], y[1:] - y[:-1], angles='xy', color=color,

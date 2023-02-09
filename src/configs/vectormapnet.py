@@ -260,7 +260,7 @@ data = dict(
     ),
     val=dict(
         type='AV2Dataset',
-        ann_file='./datasets/av2/val_annotations_60x30_withmask.json',
+        ann_file='./datasets/av2/val_annotations_60x30.json',
         meta=meta,
         roi_size=roi_size,
         cat2id=cat2id,
@@ -270,7 +270,7 @@ data = dict(
     ),
     test=dict(
         type='AV2Dataset',
-        ann_file='./datasets/av2/val_annotations_60x30_withmask.json',
+        ann_file='./datasets/av2/val_annotations_60x30.json',
         meta=meta,
         roi_size=roi_size,
         cat2id=cat2id,
