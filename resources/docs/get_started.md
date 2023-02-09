@@ -13,7 +13,7 @@ Please follow the steps below to get prepared.
 **Step 1.** Create conda environment and activate it.
 
 ```
-conda create --name hdmap python==3.8
+conda create --name hdmap python=3.8
 conda activate hdmap
 ```
 
