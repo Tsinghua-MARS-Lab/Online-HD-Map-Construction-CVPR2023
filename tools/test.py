@@ -23,6 +23,7 @@ def parse_args():
         description='MMDet test (and eval) a model')
     parser.add_argument('config', help='test config file path')
     parser.add_argument('checkpoint', type=str, help='checkpoint file')
+    parser.add_argument('--split', type=str, required=True, help='which split to test on')
     parser.add_argument('--work-dir', help='the dir to save logs and models')
     parser.add_argument(
         '--fuse-conv-bn',
@@ -53,29 +54,6 @@ def parse_args():
         action='store_true',
         help='whether to set deterministic options for CUDNN backend.')
     parser.add_argument(
-        '--cfg-options',
-        nargs='+',
-        action=DictAction,
-        help='override some settings in the used config, the key-value pair '
-        'in xxx=yyy format will be merged into config file. If the value to '
-        'be overwritten is a list, it should be like key="[a,b]" or key=a,b '
-        'It also allows nested list/tuple values, e.g. key="[(a,b),(c,d)]" '
-        'Note that the quotation marks are necessary and that no white space '
-        'is allowed.')
-    parser.add_argument(
-        '--options',
-        nargs='+',
-        action=DictAction,
-        help='custom options for evaluation, the key-value pair in xxx=yyy '
-        'format will be kwargs for dataset.evaluate() function (deprecate), '
-        'change to --eval-options instead.')
-    parser.add_argument(
-        '--eval-options',
-        nargs='+',
-        action=DictAction,
-        help='custom options for evaluation, the key-value pair in xxx=yyy '
-        'format will be kwargs for dataset.evaluate() function')
-    parser.add_argument(
         '--launcher',
         choices=['none', 'pytorch', 'slurm', 'mpi'],
         default='none',
@@ -85,29 +63,23 @@ def parse_args():
     if 'LOCAL_RANK' not in os.environ:
         os.environ['LOCAL_RANK'] = str(args.local_rank)
 
-    if args.options and args.eval_options:
-        raise ValueError(
-            '--options and --eval-options cannot be both specified, '
-            '--options is deprecated in favor of --eval-options')
-    if args.options:
-        warnings.warn('--options is deprecated in favor of --eval-options')
-        args.eval_options = args.options
     return args
 
 
 def main():
     args = parse_args()
 
-    assert args.eval or args.format_only \
-        ('Please specify at least one operation (eval/format) with the argument "--eval"'
-         ' or "--format-only"')
+    if args.split not in ['val', 'test']:
+        raise ValueError('Please choose "val" or "test" split for testing')
 
-    if args.eval and args.format_only:
-        raise ValueError('--eval and --format_only cannot be both specified')
+    if (args.eval and args.format_only) or (not args.eval and not args.format_only):
+        raise ValueError('Please specify exactly one operation (eval/format) '
+        'with the argument "--eval" or "--format-only"')
+    
+    if args.eval and args.split == 'test':
+        raise ValueError('Cannot evaluate on test set')
 
     cfg = Config.fromfile(args.config)
-    if args.cfg_options is not None:
-        cfg.merge_from_dict(args.cfg_options)
     # import modules from string list.
     if cfg.get('custom_imports', None):
         from mmcv.utils import import_modules_from_strings
@@ -149,24 +121,17 @@ def main():
                 print(f'importing {_module_path}/')
                 plg_lib = importlib.import_module(_module_path)
 
+    cfg_data_dict = cfg.data.get(args.split)
+
     cfg.model.pretrained = None
     # in case the test dataset is concatenated
     samples_per_gpu = 1
-    if isinstance(cfg.data.test, dict):
-        cfg.data.test.test_mode = True
-        samples_per_gpu = cfg.data.test.pop('samples_per_gpu', 1)
-        if samples_per_gpu > 1:
-            # Replace 'ImageToTensor' to 'DefaultFormatBundle'
-            cfg.data.test.pipeline = replace_ImageToTensor(
-                cfg.data.test.pipeline)
-    elif isinstance(cfg.data.test, list):
-        for ds_cfg in cfg.data.test:
-            ds_cfg.test_mode = True
-        samples_per_gpu = max(
-            [ds_cfg.pop('samples_per_gpu', 1) for ds_cfg in cfg.data.test])
-        if samples_per_gpu > 1:
-            for ds_cfg in cfg.data.test:
-                ds_cfg.pipeline = replace_ImageToTensor(ds_cfg.pipeline)
+    cfg_data_dict.test_mode = True
+    samples_per_gpu = cfg_data_dict.pop('samples_per_gpu', 1)
+    if samples_per_gpu > 1:
+        # Replace 'ImageToTensor' to 'DefaultFormatBundle'
+        cfg_data_dict.pipeline = replace_ImageToTensor(
+            cfg_data_dict.pipeline)
 
     # init distributed env first, since logger depends on the dist info.
     if args.launcher == 'none':
@@ -188,9 +153,9 @@ def main():
         cfg.work_dir = osp.join('./work_dirs',
                                 osp.splitext(osp.basename(args.config))[0]) 
 
-    cfg.data.test.work_dir = cfg.work_dir
+    cfg_data_dict.work_dir = cfg.work_dir
     print('work_dir: ',cfg.work_dir)
-    dataset = build_dataset(cfg.data.test)
+    dataset = build_dataset(cfg_data_dict)
     data_loader = build_dataloader(
         dataset,
         samples_per_gpu=samples_per_gpu,
@@ -220,19 +185,11 @@ def main():
 
     rank, _ = get_dist_info()
     if rank == 0:
-        kwargs = {} if args.eval_options is None else args.eval_options
         if args.format_only:
-            dataset.format_results(outputs, **kwargs)
+            dataset.format_results(outputs)
         elif args.eval:
-            eval_kwargs = cfg.get('evaluation', {}).copy()
-            # hard-code way to remove EvalHook args
-            for key in [
-                    'interval', 'tmpdir', 'start', 'gpu_collect', 'save_best',
-                    'rule'
-            ]:
-                eval_kwargs.pop(key, None)
             print('start evaluation!')
-            print(dataset.evaluate(outputs, **eval_kwargs))
+            print(dataset.evaluate(outputs))
 
 
 if __name__ == '__main__':

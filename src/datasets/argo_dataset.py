@@ -38,7 +38,7 @@ class AV2Dataset(BaseMapDataset):
         start_time = time()
         ann = mmcv.load(ann_file)
         samples = []
-        for log_id, sequence in ann.items():
+        for seg_id, sequence in ann.items():
             samples.extend(sequence)
         samples = samples[::self.interval]
         
@@ -57,7 +57,6 @@ class AV2Dataset(BaseMapDataset):
         """
 
         sample = self.samples[idx]
-        log_id = sample['log_id']
         
         if not self.test_mode:
             ann = sample['annotation']
@@ -82,7 +81,7 @@ class AV2Dataset(BaseMapDataset):
         pose = sample['pose']
         input_dict = {
             'token': sample['timestamp'],
-            'img_filenames': [c['image_path'] for c in cams.values()],
+            'img_filenames': [os.path.join(self.root_path, c['image_path']) for c in cams.values()],
             # intrinsics are 3x3 Ks
             'cam_intrinsics': [c['intrinsic'] for c in cams.values()],
             # extrinsics are 4x4 tranform matrix, NOTE: **ego2cam**

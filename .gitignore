@@ -137,7 +137,7 @@ mmdet3d/.mim
 *.json
 
 # datasets
-/datasets
+/data
 /data_ann
 
 # Waymo evaluation

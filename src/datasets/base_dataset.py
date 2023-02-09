@@ -2,7 +2,6 @@ import numpy as np
 import os
 import os.path as osp
 import mmcv
-from .evaluation.raster_eval import RasterEvaluate
 from .evaluation.vector_eval import VectorEvaluate
 
 from mmdet3d.datasets.pipelines import Compose
@@ -29,6 +28,7 @@ class BaseMapDataset(Dataset):
     """
     def __init__(self, 
                  ann_file,
+                 root_path,
                  cat2id,
                  roi_size,
                  meta,
@@ -40,6 +40,7 @@ class BaseMapDataset(Dataset):
         super().__init__()
         self.ann_file = ann_file
         self.meta = meta
+        self.root_path = root_path
         
         self.classes = list(cat2id.keys())
         self.num_classes = len(self.classes)
@@ -88,74 +89,53 @@ class BaseMapDataset(Dataset):
         '''
 
         meta = self.meta
-        output_format = meta['output_format']
         submissions = {
             'meta': meta,
             'results': {},
         }
 
-        if output_format == 'raster':
-            for pred in results:
-                single_case = {}
-                token = pred['token']
-                pred_map = pred['semantic_mask']
-                pred_bool = pred_map > 0
-                single_case['semantic_mask'] = pred_bool.bool()
-                submissions['results'][token] = single_case
+        for pred in results:
+            '''
+            For each case, the result should be formatted as Dict{'vectors': [], 'scores': [], 'labels': []}
+            'vectors': List of vector, each vector is a array([[x1, y1], [x2, y2] ...]),
+                contain all vectors predicted in this sample.
+            'scores: List of score(float), 
+                contain scores of all instances in this sample.
+            'labels': List of label(int), 
+                contain labels of all instances in this sample.
+            '''
+            if pred is None: # empty prediction
+                continue
             
-            # Use pickle format to minimize submission file size.
-            out_path = osp.join(prefix, 'submission_raster.pkl')
-            print(f'saving submissions results to {out_path}')
-            os.makedirs(os.path.dirname(out_path), exist_ok=True)
-            mmcv.dump(submissions, out_path)
-            return out_path
+            single_case = {'vectors': [], 'scores': [], 'labels': []}
+            token = pred['token']
+            roi_size = np.array(self.roi_size)
+            origin = -np.array([self.roi_size[0]/2, self.roi_size[1]/2])
 
-        elif output_format == 'vector':
-            for pred in results:
-                '''
-                For each case, the result should be formatted as Dict{'vectors': [], 'scores': [], 'labels': []}
-                'vectors': List of vector, each vector is a array([[x1, y1], [x2, y2] ...]),
-                    contain all vectors predicted in this sample.
-                'scores: List of score(float), 
-                    contain scores of all instances in this sample.
-                'labels': List of label(int), 
-                    contain labels of all instances in this sample.
-                '''
-                if pred is None: # empty prediction
+            for i in range(len(pred['scores'])):
+                score = pred['scores'][i]
+                label = pred['labels'][i]
+                vector = pred['vectors'][i]
+
+                # A line should have >=2 points
+                if len(vector) < 2:
                     continue
                 
-                single_case = {'vectors': [], 'scores': [], 'labels': []}
-                token = pred['token']
-                roi_size = np.array(self.roi_size)
-                origin = -np.array([self.roi_size[0]/2, self.roi_size[1]/2])
+                if denormalize:
+                    eps = 2
+                    vector = vector * (roi_size + eps) + origin
 
-                for i in range(len(pred['scores'])):
-                    score = pred['scores'][i]
-                    label = pred['labels'][i]
-                    vector = pred['vectors'][i]
-
-                    # A line should have >=2 points
-                    if len(vector) < 2:
-                        continue
-                    
-                    if denormalize:
-                        eps = 2
-                        vector = vector * (roi_size + eps) + origin
-
-                    single_case['vectors'].append(vector)
-                    single_case['scores'].append(score)
-                    single_case['labels'].append(label)
-                
-                submissions['results'][token] = single_case
+                single_case['vectors'].append(vector)
+                single_case['scores'].append(score)
+                single_case['labels'].append(label)
             
-            out_path = osp.join(prefix, 'submission_vector.json')
-            print(f'saving submissions results to {out_path}')
-            os.makedirs(os.path.dirname(out_path), exist_ok=True)
-            mmcv.dump(submissions, out_path)
-            return out_path
+            submissions['results'][token] = single_case
         
-        else:
-            raise ValueError("output format must be either \'raster\' or \'vector\'")
+        out_path = osp.join(prefix, 'submission_vector.json')
+        print(f'saving submissions results to {out_path}')
+        os.makedirs(os.path.dirname(out_path), exist_ok=True)
+        mmcv.dump(submissions, out_path)
+        return out_path
 
     def evaluate(self, results, logger=None, **kwargs):
         '''Evaluate prediction result based on `output_format` specified by dataset.
@@ -169,99 +149,14 @@ class BaseMapDataset(Dataset):
         '''
 
         output_format = self.meta['output_format']
-        if output_format == 'raster':
-            self.evaluator = RasterEvaluate(self.eval_config)
-        
-        elif output_format == 'vector':
-            self.evaluator = VectorEvaluate(self.ann_file)
+        self.evaluator = VectorEvaluate(self.ann_file)
 
-        else:
-            raise ValueError("output_format must be either \'raster\' or \'vector\'")
-        
         print('len of the results', len(results))
         
         result_path = self.format_results(results, denormalize=True, prefix=self.work_dir)
 
         result_dict = self.evaluator.evaluate(result_path, logger=logger)
         return result_dict
-
-    def show_gt(self, idx, out_dir='demo/'):
-        '''Visualize ground-truth.
-
-        Args:
-            idx (int): index of sample.
-            out_dir (str): output directory.
-        '''
-
-        from mmcv.parallel import DataContainer
-        from copy import deepcopy
-        sample = self.get_sample(idx)
-        data = self.pipeline(deepcopy(sample))
-
-        imgs = [mmcv.imread(i) for i in sample['img_filenames']]
-        cam_extrinsics = sample['cam_extrinsics']
-        cam_intrinsics = sample['cam_intrinsics']
-
-        if 'vectors' in data:
-            vectors = data['vectors']
-            if isinstance(vectors, DataContainer):
-                vectors = vectors.data
-            roi_size = np.array(self.roi_size)
-            origin = -np.array([self.roi_size[0]/2, self.roi_size[1]/2])
-
-            for k, vector_list in vectors.items():
-                for i, v in enumerate(vector_list):
-                    v[:, :2] = v[:, :2] * (roi_size + 2) + origin
-                    vector_list[i] = v
-            
-            self.renderer.render_bev_from_vectors(vectors, out_dir)
-            self.renderer.render_camera_views_from_vectors(vectors, imgs, 
-                cam_extrinsics, cam_intrinsics, 2, out_dir)
-
-        if 'semantic_mask' in data:
-            semantic_mask = data['semantic_mask']
-            if isinstance(semantic_mask, DataContainer):
-                semantic_mask = semantic_mask.data
-            
-            self.renderer.render_bev_from_mask(semantic_mask, out_dir)
-
-    def show_result(self, submission, idx, score_thr=0, out_dir='demo/'):
-        '''Visualize prediction result.
-
-        Args:
-            idx (int): index of sample.
-            submission (dict): prediction results.
-            score_thr (float): threshold to filter prediction results.
-            out_dir (str): output directory.
-        '''
-
-        meta = submission['meta']
-        output_format = meta['output_format']
-        token = self.idx2token[idx]
-        results = submission['results'][token]
-        sample = self.get_sample(idx)
-
-        imgs = [mmcv.imread(i) for i in sample['img_filenames']]
-        cam_extrinsics = sample['cam_extrinsics']
-        cam_intrinsics = sample['cam_intrinsics']
-
-        if output_format == 'raster':
-            semantic_mask = results['semantic_mask'].numpy()
-            self.renderer.render_bev_from_mask(semantic_mask, out_dir)
-        
-        elif output_format == 'vector':
-            vectors = {label: [] for label in self.cat2id.values()}
-            for i in range(len(results['labels'])):
-                score = results['scores'][i]
-                label = results['labels'][i]
-                v = results['vectors'][i]
-
-                if score > score_thr:
-                    vectors[label].append(v)
-                
-            self.renderer.render_bev_from_vectors(vectors, out_dir)
-            self.renderer.render_camera_views_from_vectors(vectors, imgs, 
-                    cam_extrinsics, cam_intrinsics, 2, out_dir)
 
     def __len__(self):
         """Return the length of data infos.

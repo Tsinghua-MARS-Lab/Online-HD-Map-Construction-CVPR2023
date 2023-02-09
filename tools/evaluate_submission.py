@@ -11,8 +11,7 @@ def parse_args():
     parser.add_argument('submission', 
         help='submission file in pickle or json format to be evaluated')
 
-    parser.add_argument('--gt', 
-        default='/nvme/argoverse2/sensor/val_annotations_60x30.json',
+    parser.add_argument('gt', 
         help='gt annotation file')
 
     args = parser.parse_args()

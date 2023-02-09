@@ -1,4 +1,2 @@
-efficientnet_pytorch
-# torch_scatter==2.0.6
-similaritymeasures==0.5.0
-av2
+numpy==1.23.4
+shapely==1.8.4

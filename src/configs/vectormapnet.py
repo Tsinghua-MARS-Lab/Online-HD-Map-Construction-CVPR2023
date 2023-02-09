@@ -1,5 +1,5 @@
 _base_ = [
-    '../_base_/default_runtime.py'
+    './_base_/default_runtime.py'
 ]
 
 # model type
@@ -235,7 +235,7 @@ train_pipeline = [
 test_pipeline = [
     dict(type='LoadMultiViewImagesFromFiles'),
     dict(type='ResizeMultiViewImages',
-         size = (int(128*2), int((16/9*128)*2)), # H, W
+         size=img_size, # H, W
          change_intrinsics=True,
          ),
     dict(type='Normalize3D', **img_norm_cfg),
@@ -251,7 +251,8 @@ data = dict(
     workers_per_gpu=5,
     train=dict(
         type='AV2Dataset',
-        ann_file='./datasets/av2/train_annotations_60x30_withmask.json',
+        ann_file='./data/train_annotations.json',
+        root_path='./data/argoverse2/',
         meta=meta,
         roi_size=roi_size,
         cat2id=cat2id,
@@ -260,7 +261,8 @@ data = dict(
     ),
     val=dict(
         type='AV2Dataset',
-        ann_file='./datasets/av2/val_annotations_60x30.json',
+        ann_file='./data/val_annotations.json',
+        root_path='./data/argoverse2/',
         meta=meta,
         roi_size=roi_size,
         cat2id=cat2id,
@@ -270,7 +272,8 @@ data = dict(
     ),
     test=dict(
         type='AV2Dataset',
-        ann_file='./datasets/av2/val_annotations_60x30.json',
+        ann_file='./data/av2/test_annotations.json',
+        root_path='./data/argoverse2/',
         meta=meta,
         roi_size=roi_size,
         cat2id=cat2id,
