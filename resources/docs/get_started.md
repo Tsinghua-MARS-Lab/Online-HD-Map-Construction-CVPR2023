@@ -98,13 +98,13 @@ python tools/test.py src/configs/vectormapnet.py ${CHECKPOINT} --split val --eva
 Generate a submission file on test set without evaluation:
 
 ```
-python tools/test.py src/plugin/configs/vectormapnet.py ${CHECKPOINT} --split test --format-only
+python tools/test.py src/configs/vectormapnet.py ${CHECKPOINT} --split test --format-only
 ```
 
 Multi GPU evaluation
 
 ```
-bash tools/dist_test.py src/plugin/configs/vectormapnet.py ${CHECKPOINT} ${NUM_GPUS} --split val --eval
+bash tools/dist_test.py src/configs/vectormapnet.py ${CHECKPOINT} ${NUM_GPUS} --split val --eval
 ```
 
 Tips for options:
