@@ -21,10 +21,9 @@ def parse_args():
     parser.add_argument('log_id', type=str,
         help='log_id of data to visualize')
     parser.add_argument('ann_file', 
-        # default='/nvme/argoverse2/sensor/val_annotations_60x30.json', 
         help='gt file to visualize')
     parser.add_argument('--result', 
-        default=None,
+        type=str,
         help='prediction result to visualize')
     parser.add_argument('--thr', 
         type=float,
