@@ -23,7 +23,7 @@ def parse_args():
         description='MMDet test (and eval) a model')
     parser.add_argument('config', help='test config file path')
     parser.add_argument('checkpoint', type=str, help='checkpoint file')
-    parser.add_argument('--split', type=str, required=True,help='which split to test on')
+    parser.add_argument('--split', type=str, required=True, help='which split to test on')
     parser.add_argument('--work-dir', help='the dir to save logs and models')
     parser.add_argument(
         '--fuse-conv-bn',
@@ -73,8 +73,8 @@ def main():
         raise ValueError('Please choose "val" or "test" split for testing')
 
     if (args.eval and args.format_only) or (not args.eval and not args.format_only):
-        raise ValueError('Please specify exactly one operation (eval/format) with the argument "--eval"'
-         ' or "--format-only"')
+        raise ValueError('Please specify exactly one operation (eval/format) '
+        'with the argument "--eval" or "--format-only"')
     
     if args.eval and args.split == 'test':
         raise ValueError('Cannot evaluate on test set')
@@ -185,9 +185,8 @@ def main():
 
     rank, _ = get_dist_info()
     if rank == 0:
-        kwargs = {} if args.eval_options is None else args.eval_options
         if args.format_only:
-            dataset.format_results(outputs, **kwargs)
+            dataset.format_results(outputs)
         elif args.eval:
             print('start evaluation!')
             print(dataset.evaluate(outputs))

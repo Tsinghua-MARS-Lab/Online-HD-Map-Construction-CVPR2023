@@ -36,7 +36,7 @@ class VectorEvaluate(object):
     def __init__(self, ann_file, n_workers: int=N_WORKERS) -> None:
         ann = mmcv.load(ann_file)
         gts = {}
-        for log_id, seq in ann.items():
+        for seg_id, seq in ann.items():
             for frame in seq:
                 ann = {}
                 for cat, vectors in frame['annotation'].items():

@@ -28,6 +28,7 @@ class BaseMapDataset(Dataset):
     """
     def __init__(self, 
                  ann_file,
+                 root_path,
                  cat2id,
                  roi_size,
                  meta,
@@ -39,6 +40,7 @@ class BaseMapDataset(Dataset):
         super().__init__()
         self.ann_file = ann_file
         self.meta = meta
+        self.root_path = root_path
         
         self.classes = list(cat2id.keys())
         self.num_classes = len(self.classes)
