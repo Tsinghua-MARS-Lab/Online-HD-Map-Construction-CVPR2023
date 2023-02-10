@@ -33,12 +33,10 @@ sample_dist = -1 # sampling params, vectormapnet uses simplify
 sample_num = -1 # sampling params, vectormapnet uses simplify
 simplify = True # sampling params, vectormapnet uses simplify
 
-# meta info for submission pkl
+# meta info for submission file
 meta = dict(
     use_lidar=False,
     use_camera=True,
-    use_radar=False,
-    use_map=False,
     use_external=False,
     output_format='vector')
 
