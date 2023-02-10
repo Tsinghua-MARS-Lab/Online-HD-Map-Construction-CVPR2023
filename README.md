@@ -51,7 +51,7 @@ Please refer to [get_started.md](./resources/docs/get_started.md).
 
 Please submit at [EvalAI](https://eval.ai/web/challenges/challenge-page/1954/submission). For details of submission file format, please see [metric.md](./resources/docs/metrics.md).
 
-| Method | mAP | Ped Cross | Divider | Boundary |
+| Method | $\mathrm{mAP}$ | $\mathrm{AP}_{pc}$ | $\mathrm{AP}_{div}$ | $\mathrm{AP}_{bound}$ |
 | :----: | :-: | :-------: | :-----: | :------: |
 | -      | -   | -         | -       | -        |
 
