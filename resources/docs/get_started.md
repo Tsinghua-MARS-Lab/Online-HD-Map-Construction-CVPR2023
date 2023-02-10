@@ -59,7 +59,7 @@ Please see [data.md](./data.md).
 
 ## Baseline Model
 
-We provide a baseline model based on [VectorMapNet](https://arxiv.org/abs/2206.08920). 
+We provide a baseline model based on [VectorMapNet](https://arxiv.org/abs/2206.08920) ([Checkpoint](https://drive.google.com/file/d/16D1CMinwA8PG1sd9PV9_WtHzcBohvO-D/view?usp=sharing)).
 
 **Expected Results**
 
