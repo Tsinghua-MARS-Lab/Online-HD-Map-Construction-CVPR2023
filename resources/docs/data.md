@@ -10,7 +10,7 @@ To be released.
 
 #### Annotations
 
-Please download map annotation files at [ToDo](xxx) and unzip it. Store your data with following structure.
+Please download map [annotations](https://drive.google.com/file/d/1NUwFTVZ_HKeOeqe3oJO01PdBJQcZRVhu/view?usp=sharing) and unzip it. Store your data with following structure.
 
 ```
 └── data
