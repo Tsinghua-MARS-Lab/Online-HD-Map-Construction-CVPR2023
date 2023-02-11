@@ -35,7 +35,7 @@ Please download map [annotations](https://drive.google.com/file/d/1NUwFTVZ_HKeOe
 
 ## Data Annotation
 
-Here we introduce the format of our data annotations.
+Here we introduce the format of our data annotations. The range of annotations is 60 x 30 meters in ego-vehicle coordinate system. All polylines will be truncated at this range.
 
 ```
 train_annotations {
