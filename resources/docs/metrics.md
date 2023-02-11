@@ -31,6 +31,7 @@ Note:
 1. The direction of lines and the order of points do not matter.
 2. The points sampling will be done by evaluation code.
 3. The Chamfer Distance is calculated in 2D space. The z-axis (height) will be ignored.
+4. The construction range is 60 x 30 meters in ego-vehicle coordinate system. All polylines will be truncated at this range.
 
 Then Average Precision (AP) is calculated according to the matching results. This calculation is as same as the one used in object detection.
 
