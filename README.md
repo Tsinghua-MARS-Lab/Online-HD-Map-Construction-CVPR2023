@@ -53,7 +53,7 @@ Please submit at [EvalAI](https://eval.ai/web/challenges/challenge-page/1954/sub
 
 | Method | $\mathrm{mAP}$ | $\mathrm{AP}_{pc}$ | $\mathrm{AP}_{div}$ | $\mathrm{AP}_{bound}$ |
 | :----: | :-: | :-------: | :-----: | :------: |
-| -      | -   | -         | -       | -        |
+| VectorMapNet (baseline)      | 42.79   | 37.22         | 50.47       | 40.68        |
 
 
 ## Citation
