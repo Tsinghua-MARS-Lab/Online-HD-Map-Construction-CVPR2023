@@ -104,7 +104,7 @@ python tools/test.py src/configs/vectormapnet.py ${CHECKPOINT} --split test --fo
 Multi GPU evaluation
 
 ```
-bash tools/dist_test.py src/configs/vectormapnet.py ${CHECKPOINT} ${NUM_GPUS} --split val --eval
+bash tools/dist_test.sh src/configs/vectormapnet.py ${CHECKPOINT} ${NUM_GPUS} --split val --eval
 ```
 
 Tips for options:
