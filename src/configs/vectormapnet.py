@@ -37,8 +37,6 @@ simplify = True # sampling params, vectormapnet uses simplify
 meta = dict(
     use_lidar=False,
     use_camera=True,
-    use_radar=False,
-    use_map=False,
     use_external=False,
     output_format='vector')
 
