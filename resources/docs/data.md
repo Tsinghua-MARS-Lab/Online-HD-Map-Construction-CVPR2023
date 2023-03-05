@@ -5,6 +5,8 @@ This page introduces how to download our dataset and how to use it.
 ## Download
 
 #### Sensor Data
+The files mentioned below can also be downloaded via [OpenDataLab](https://opendatalab.com/OpenLane-V2/download). It is recommended to use provided command line interface for acceleration.
+Note: you only need to download and unzip `OpenLane-V2_subset_A_image_*.tar` for this track.
 
 | Split | Google Drive <img src="https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png" alt="Google Drive" width="18"/> | Baidu Yun <img src="https://nd-static.bdstatic.com/m-static/v20-main/favicon-main.ico" alt="Baidu Yun" width="18"/> | md5 | Size |
 | --- | --- | --- | --- | --- |
