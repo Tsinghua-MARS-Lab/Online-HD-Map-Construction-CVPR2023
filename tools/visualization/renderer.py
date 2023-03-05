@@ -212,7 +212,10 @@ class Renderer(object):
                 color = COLOR_MAPS_BGR[cat]
                 for vector in vector_list:
                     img_bgr = np.ascontiguousarray(img_bgr)
-                    draw_polyline_ego_on_img(np.array(vector)[:, :3], img_bgr, extrinsic, intrinsic, 
+                    vector_array = np.array(vector)
+                    if vector_array.shape[1] > 3:
+                        vector_array = vector_array[:, :3]
+                    draw_polyline_ego_on_img(vector_array, img_bgr, extrinsic, intrinsic, 
                        color, thickness)
 
             out_path = osp.join(out_dir, CAM_NAMES_AV2[i]) + '.jpg'

@@ -77,6 +77,7 @@ def import_plugin(cfg):
 def main(args):
     log_id = args.log_id
     ann = mmcv.load(args.ann_file)
+    root_path = os.path.dirname(args.ann_file)
     out_dir = os.path.join(args.out_dir, str(log_id))
     
     log_ann = ann[log_id]
@@ -89,7 +90,7 @@ def main(args):
         timestamp = frame['timestamp']
         sensor = frame['sensor']
         annotation = frame['annotation']
-        imgs = [mmcv.imread(i['image_path']) for i in sensor.values()]
+        imgs = [mmcv.imread(os.path.join(root_path, 'argoverse2', i['image_path'])) for i in sensor.values()]
         extrinsics = [i['extrinsic'] for i in sensor.values()]
         intrinsics = [i['intrinsic'] for i in sensor.values()]
 
@@ -120,5 +121,4 @@ def main(args):
 
 if __name__ == '__main__':
     args = parse_args()
-    ann = mmcv.load(args.ann_file)
     main(args)
