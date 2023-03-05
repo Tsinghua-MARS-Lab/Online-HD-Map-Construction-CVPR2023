@@ -33,7 +33,7 @@ sample_dist = -1 # sampling params, vectormapnet uses simplify
 sample_num = -1 # sampling params, vectormapnet uses simplify
 simplify = True # sampling params, vectormapnet uses simplify
 
-# meta info for submission pkl
+# meta info for submission file
 meta = dict(
     use_lidar=False,
     use_camera=True,
@@ -270,7 +270,7 @@ data = dict(
     ),
     test=dict(
         type='AV2Dataset',
-        ann_file='./data/av2/test_annotations.json',
+        ann_file='./data/test_annotations.json',
         root_path='./data/argoverse2/',
         meta=meta,
         roi_size=roi_size,

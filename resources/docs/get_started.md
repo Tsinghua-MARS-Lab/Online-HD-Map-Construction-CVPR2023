@@ -1,6 +1,6 @@
 # Get Started 
 
-This page will lead you to go through with our data and code.
+This page will lead you to go through our data and code.
 
 
 
@@ -13,7 +13,7 @@ Please follow the steps below to get prepared.
 **Step 1.** Create conda environment and activate it.
 
 ```
-conda create --name hdmap python==3.8
+conda create --name hdmap python=3.8
 conda activate hdmap
 ```
 
@@ -53,13 +53,13 @@ pip install -r requirements.txt
 
 #### 2. Data
 
-Please see [download.md](./download.md).
+Please see [data.md](./data.md).
 
 
 
 ## Baseline Model
 
-We provide a baseline model based on [VectorMapNet](https://arxiv.org/abs/2206.08920). 
+We provide a baseline model based on [VectorMapNet](https://arxiv.org/abs/2206.08920) ([Checkpoint](https://drive.google.com/file/d/16D1CMinwA8PG1sd9PV9_WtHzcBohvO-D/view?usp=sharing)).
 
 **Expected Results**
 
@@ -98,13 +98,13 @@ python tools/test.py src/configs/vectormapnet.py ${CHECKPOINT} --split val --eva
 Generate a submission file on test set without evaluation:
 
 ```
-python tools/test.py src/plugin/configs/vectormapnet.py ${CHECKPOINT} --split test --format-only
+python tools/test.py src/configs/vectormapnet.py ${CHECKPOINT} --split test --format-only
 ```
 
 Multi GPU evaluation
 
 ```
-bash tools/dist_test.py src/plugin/configs/vectormapnet.py ${CHECKPOINT} ${NUM_GPUS} --split val --eval
+bash tools/dist_test.sh src/configs/vectormapnet.py ${CHECKPOINT} ${NUM_GPUS} --split val --eval
 ```
 
 Tips for options:
@@ -141,6 +141,7 @@ for example,
 
 ```
 python tools/visualization/visualize.py 10001 data/val_annotations.json
+
 ```
 
 To visualize also prediction results and filter out all predictions with score lower than `${THR}`

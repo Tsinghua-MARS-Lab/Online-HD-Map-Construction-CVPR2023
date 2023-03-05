@@ -14,7 +14,7 @@
 - [News](#news)
 - [Data](#data)
 - [Get Started](#get-started)
-- [Challenge submission and Leaderboard (To be released)](#challenge-submission-and-leaderboard-to-be-released)
+- [Challenge submission and Leaderboard](#challenge-submission-and-leaderboard)
 - [Citation](#citation)
 - [License](#license)
 
@@ -41,19 +41,19 @@ We use Chamfer Distance based Average Precision ( $\mathrm{AP}_\mathrm{CD}$ ) as
 
 ## Data
 
-Our dataset is built on top of the [Argoverse2](https://www.argoverse.org/av2.html) dataset. To download the dataset and check more details, please see [download.md](./resources/docs/download.md).
+Our dataset is built on top of the [Argoverse2](https://www.argoverse.org/av2.html) dataset. To download the dataset and check more details, please see [data.md](./resources/docs/data.md).
 
 ## Get Started
 
 Please refer to [get_started.md](./resources/docs/get_started.md).
 
-## Challenge submission and Leaderboard (To be released)
+## Challenge submission and Leaderboard
 
-Please submit at [EvalAI](eval.ai)
+Please submit at [EvalAI](https://eval.ai/web/challenges/challenge-page/1954/submission). For details of submission file format, please see [metric.md](./resources/docs/metrics.md).
 
-| Method | mAP | Ped Cross | Divider | Boundary |
+| Method | $\mathrm{mAP}$ | $\mathrm{AP}_{pc}$ | $\mathrm{AP}_{div}$ | $\mathrm{AP}_{bound}$ |
 | :----: | :-: | :-------: | :-----: | :------: |
-| -      | -   | -         | -       | -        |
+| VectorMapNet (baseline)      | 42.79   | 37.22         | 50.47       | 40.68        |
 
 
 ## Citation
