@@ -270,7 +270,7 @@ data = dict(
     ),
     test=dict(
         type='AV2Dataset',
-        ann_file='./data/av2/test_annotations.json',
+        ann_file='./data/test_annotations.json',
         root_path='./data/argoverse2/',
         meta=meta,
         roi_size=roi_size,
