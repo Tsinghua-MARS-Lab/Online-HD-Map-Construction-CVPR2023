@@ -49,8 +49,18 @@ Format for submission file
 ```
 submisson_vector {
     "meta": {
-        "use_external": <bool>,                     -- Whether this submission uses external data as an input.
+        'use_lidar': False,
+        'use_camera': True,
+        "use_external": False,                     -- Whether this submission uses external data as an input.
         "output_format": "vector",                  -- This submission uses vectorized format.
+        'use_external': False,
+
+        # NOTE: please fill the information below
+        'method': <str>,                            -- name of your method
+        'authors': <list>,                          -- author names
+        'e-mail': <str>,                            -- your e-mail address
+        'institution / company': <str>,             -- your organization
+        'country / region': <str>,                  -- your country/region in iso3166 standard
         ...                                         -- Other meta info you want to add.
     },
     "results": {

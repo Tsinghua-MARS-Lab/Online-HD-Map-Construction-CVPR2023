@@ -2,6 +2,22 @@ _base_ = [
     './_base_/default_runtime.py'
 ]
 
+# meta info for submission file
+
+meta = {
+    'use_lidar': False,
+    'use_camera': True,
+    'use_external': False,
+    'output_format': 'vector',
+
+    # NOTE: please fill the information below
+    'method': 'vectormapnet', # name of your method
+    'authors': ['foo bar', 'xxx yyy'], # author names
+    'e-mail': 'xxx@gmail.com', # your e-mail address
+    'institution / company': 'xxx', # your organization
+    'country / region': 'XX', # your country/region in iso3166 standard
+}
+
 # model type
 type = 'Mapper'
 plugin = True
@@ -32,13 +48,6 @@ coords_dim = 2 # polylines coordinates dimension, 2 or 3
 sample_dist = -1 # sampling params, vectormapnet uses simplify
 sample_num = -1 # sampling params, vectormapnet uses simplify
 simplify = True # sampling params, vectormapnet uses simplify
-
-# meta info for submission file
-meta = dict(
-    use_lidar=False,
-    use_camera=True,
-    use_external=False,
-    output_format='vector')
 
 # model configs
 head_dim = 256
