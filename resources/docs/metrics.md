@@ -44,7 +44,7 @@ where $\mathrm{Pr_r}$ is the precision when recall is at $r$.
 
 ## Submission Format
 
-Format for submission file
+Format for submission file:
 
 ```
 submisson_vector {
@@ -72,3 +72,4 @@ submisson_vector {
     }
 }
 ```
+See [get_started.md](https://github.com/Tsinghua-MARS-Lab/Online-HD-Map-Construction-CVPR2023/blob/master/resources/docs/get_started.md#evaluation) for how to generate submission files.
