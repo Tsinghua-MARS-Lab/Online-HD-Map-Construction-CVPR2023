@@ -10,12 +10,13 @@ meta = {
     'use_external': False,
     'output_format': 'vector',
 
-    # NOTE: please fill the information below
-    'method': 'vectormapnet', # name of your method
-    'authors': ['foo bar', 'xxx yyy'], # author names
-    'e-mail': 'xxx@gmail.com', # your e-mail address
-    'institution / company': 'xxx', # your organization
-    'country / region': 'XX', # your country/region in iso3166 standard
+    # NOTE: please modify the information below
+    'method': 'VectorMapNet', # name of your method
+    'authors': ['Yicheng Liu', 'Tianyuan Yuan', 'Yue Wang',
+        'Yilun Wang', 'Hang Zhao'], # author names
+    'e-mail': 'yuantianyuan01@gmail.com', # your e-mail address
+    'institution / company': 'MarsLab, Tsinghua University', # your organization
+    'country / region': 'CN', # your country/region in iso3166 standard
 }
 
 # model type

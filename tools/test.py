@@ -186,7 +186,7 @@ def main():
     rank, _ = get_dist_info()
     if rank == 0:
         if args.format_only:
-            dataset.format_results(outputs)
+            dataset.format_results(outputs, prefix=cfg.work_dir)
         elif args.eval:
             print('start evaluation!')
             print(dataset.evaluate(outputs))

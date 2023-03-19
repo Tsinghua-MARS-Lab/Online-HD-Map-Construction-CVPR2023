@@ -132,7 +132,7 @@ class BaseMapDataset(Dataset):
             submissions['results'][token] = single_case
         
         out_path = osp.join(prefix, 'submission_vector.json')
-        print(f'saving submissions results to {out_path}')
+        print(f'\nsaving submissions results to {out_path}')
         os.makedirs(os.path.dirname(out_path), exist_ok=True)
         mmcv.dump(submissions, out_path)
         return out_path
