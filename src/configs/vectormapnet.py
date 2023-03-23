@@ -16,7 +16,7 @@ meta = {
         'Yilun Wang', 'Hang Zhao'], # author names
     'e-mail': 'yuantianyuan01@gmail.com', # your e-mail address
     'institution / company': 'MarsLab, Tsinghua University', # your organization
-    'country / region': 'CN', # your country/region in iso3166 standard
+    'country / region': 'xxx', # (IMPORTANT) your country/region in iso3166 standard
 }
 
 # model type
