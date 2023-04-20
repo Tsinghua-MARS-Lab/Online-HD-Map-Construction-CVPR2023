@@ -15,6 +15,7 @@
 - [Data](#data)
 - [Get Started](#get-started)
 - [Challenge submission and Leaderboard](#challenge-submission-and-leaderboard)
+- [Rules](#rules)
 - [Citation](#citation)
 - [License](#license)
 
@@ -55,6 +56,11 @@ Please submit at [EvalAI](https://eval.ai/web/challenges/challenge-page/1954/sub
 | :----: | :-: | :-------: | :-----: | :------: |
 | VectorMapNet (baseline)      | 42.79   | 37.22         | 50.47       | 40.68        |
 
+
+## Rules
+- No other public/private dataset is allowed in this challenge in any form (except ImageNet or COCO pretrained image backbones).
+- No future frame is allowed during inference.
+- In order to check for compliance, we will ask the participants to provide technical reports to the challenge committee and participants will be asked to provide a public talk about their works after winning the award.
 
 ## Citation
 
