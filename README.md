@@ -41,7 +41,7 @@ We use Chamfer Distance based Average Precision ( $\mathrm{AP}_\mathrm{CD}$ ) as
   - [Benchmark](https://github.com/Tsinghua-MARS-Lab/Online_Map_Construction_Benchmark) on [nuScenes](www.nuscenes.org) dataset released.
 - [2023/05]
   - **Note**❗❗❗  It is a must to append a correct **email** address and other information to validate your submissions in the [Challenge](https://opendrivelab.com/AD23Challenge.html#rules).
-  - Add a restriction of 250MB maximum submission file size due to the limitation of EvalAI's memory size.
+  - Due to EvalAI's memory size limitations, we restrict the maximum file size for submissions to 250MB.
 
 ## Data
 
