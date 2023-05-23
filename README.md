@@ -42,7 +42,7 @@ We use Chamfer Distance based Average Precision ( $\mathrm{AP}_\mathrm{CD}$ ) as
 - [2023/05]
   - **Note**❗❗❗  It is a must to append a correct **email** address and other information to validate your submissions in the [Challenge](https://opendrivelab.com/AD23Challenge.html#rules).
   - Due to EvalAI's memory size limitations, we restrict the maximum file size for submissions to 250MB.
-
+  - [2023/05/23] We noticed that there are several submissions stuck with `running` status on EvalAI. This is caused by EvalAI's memory size limitations. We suggest reducing your submission by filtering predictions with a score threshold or using less points to represent a line (this will cause little performance drop since we explicitly do up-sample in evaluation code).
 ## Data
 
 Our dataset is built on top of the [Argoverse2](https://www.argoverse.org/av2.html) dataset. To download the dataset and check more details, please see [data.md](./resources/docs/data.md).
